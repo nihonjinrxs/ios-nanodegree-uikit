@@ -53,8 +53,8 @@ class RockPaperScissorsViewController: UIViewController {
         // 1st Way: Programmatic View Controller Presentation
         if (playersMove == RPS.Rock) {
             // Get the storyboard and ResultViewController
-            var storyboard = UIStoryboard (name: "Main", bundle: nil)
-            var resultVC = storyboard.instantiateViewControllerWithIdentifier("ResultViewController") as! ResultViewController
+            let storyboard = UIStoryboard (name: "Main", bundle: nil)
+            let resultVC = storyboard.instantiateViewControllerWithIdentifier("ResultViewController") as! ResultViewController
         
             // Communicate the match
             resultVC.match = self.match
@@ -72,9 +72,16 @@ class RockPaperScissorsViewController: UIViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        //Notice that this code works for both Scissors and Paper
-        let controller = segue.destinationViewController as! ResultViewController
-        controller.match = self.match
+        switch segue.identifier! {
+        case "throwDownScissors", "throwDownPaper":
+            let controller = segue.destinationViewController as! ResultViewController
+            controller.match = self.match
+        case "matchHistory":
+            let controller = segue.destinationViewController as! HistoryViewController
+            controller.history = self.history
+        default:
+            break
+        }
     }
    
     @IBAction func showHistory(sender: AnyObject) {
